@@ -1,6 +1,7 @@
 import Project from "./projects";
 import Todo from "./todos";
 import './styles.css';
+import {addFormEvents} from "./form";
 
 const mainContent = document.querySelector("#main");
 const projectSection = document.querySelector("#project-section");
@@ -20,6 +21,22 @@ test.addTodo(todoTest2)
 projectList.push(test)
 projectList.push(blah)
 
+addFormEvents();
+
+document.addEventListener('formSubmitted', (event) => {
+    const formData = event.detail;
+    console.log('Form data received in index.js:', formData);
+
+    addNewProject(formData);
+
+});
+
+function addNewProject(data){
+    const project = new Project(data.title, data.description);
+
+    projectList.push(project)
+    populateSidebar()
+}
 
 function populateSidebar(){
     projectSection.replaceChildren();
