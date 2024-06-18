@@ -1,19 +1,78 @@
 import Project from "./projects";
 import Todo from "./todos";
+import './styles.css';
 
-let projectList = []
+const mainContent = document.querySelector("#main");
+const projectSection = document.querySelector("#project-section");
+const viewNotes = document.querySelector("#view-notes");
+
+let projectList = [];
 
 const test = new Project("Trip","Things to Pack");
 const blah = new Project("Game Dev","Ideas to Program");
 
 const todoTest = new Todo("Brush","hair brush","24/06","High","Trip")
+const todoTest2 = new Todo("Brushesssss","hair brush","24/06","High","Trip")
 
 test.addTodo(todoTest)
-console.log(test)
+test.addTodo(todoTest2)
+
 
 projectList.push(test)
 projectList.push(blah)
 
-projectList.forEach((project) =>{
-    console.log(project.details);
-})
+
+function populateSidebar(){
+    projectSection.replaceChildren();
+    const ul = document.createElement("ul");
+
+    projectList.forEach((project) => {
+        const titleLi = document.createElement("li");
+        titleLi.innerHTML = project.title;
+        titleLi.addEventListener("click", () => viewProject(project))
+        ul.append(titleLi);
+    });
+    projectSection.append(ul)
+}
+
+function viewProject(project){
+    const newDiv = document.createElement("div");
+    const title = document.createElement("h2");
+    title.innerHTML = project.title;
+
+    const details = document.createElement("p");
+    details.innerHTML = project.details;
+
+    newDiv.append(title,details);
+
+    changeMain(newDiv)
+}
+
+function viewAllNotes(){
+    const newDiv = document.createElement("div");
+    let allTodos = []
+
+    projectList.forEach(project => {
+        const projectToDo = project.getTodo();
+        projectToDo.forEach(todo =>{
+            allTodos.push(todo);
+        })
+    });
+
+    allTodos.forEach(todo =>{
+        const todoCard = document.createElement("p")
+        todoCard.innerHTML = todo.title;
+        newDiv.append(todoCard);
+    })
+
+    changeMain(newDiv)
+}
+
+function changeMain(div){
+    mainContent.innerHTML = "";
+    mainContent.append(div);
+}
+
+viewNotes.addEventListener("click", () => viewAllNotes())
+
+populateSidebar();
