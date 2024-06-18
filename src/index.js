@@ -55,13 +55,27 @@ function viewProject(project){
     const newDiv = document.createElement("div");
     const title = document.createElement("h2");
     title.innerHTML = project.title;
+    
+    const deleteButton = document.createElement("button");
+    deleteButton.innerHTML = "Delete Project";
+    deleteButton.addEventListener("click", () => {
+        deleteButton.parentElement.replaceChildren(),
+        deleteProject(project)
+        }
+    )
 
     const details = document.createElement("p");
     details.innerHTML = project.details;
 
-    newDiv.append(title,details);
+    newDiv.append(title,details, deleteButton);
 
     changeMain(newDiv)
+}
+
+function deleteProject(project){
+        const index = projectList.indexOf(project);
+        projectList.splice(index,1);
+        populateSidebar();
 }
 
 function viewAllNotes(){
