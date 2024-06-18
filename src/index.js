@@ -17,7 +17,6 @@ const todoTest2 = new Todo("Brushesssss","hair brush","24/06","High","Trip")
 test.addTodo(todoTest)
 test.addTodo(todoTest2)
 
-
 projectList.push(test)
 projectList.push(blah)
 
