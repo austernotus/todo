@@ -1,4 +1,4 @@
-const overlay = document.querySelector(".overlay")
+export const overlay = document.querySelector(".overlay")
 
 export class Overlay{
     hide(){

@@ -2,26 +2,40 @@ import Project from "./projects";
 import {Todo, showTodoForm, addTodoFormEvents} from "./todos";
 import './styles.css';
 import {addFormEvents} from "./form";
-import { Overlay } from "./dom";
+import { Overlay, overlay } from "./dom";
 
-const overlay = new Overlay();
+const myOverlay = new Overlay();
 const mainContent = document.querySelector("#main");
 const projectSection = document.querySelector("#project-section");
 const viewNotes = document.querySelector("#view-notes");
 
 let projectList = [];
 
-const test = new Project("Trip","Things to Pack");
-const blah = new Project("Game Dev","Ideas to Program");
+function createDefaultProject(){
+    const defaultProject = new Project("Trip","Things to Pack");
+    console.log(defaultProject)
+    const todo1 = new Todo("Brush","A hair brush.","2024-06-21","High","Trip")
+    const todo2 = new Todo("Small Backpack","To carry essentials.","2024-06-24","High","Trip")
+    const todo3 = new Todo("First-Aid Kit","In case of accidents.","2024-06-25","Low","Trip")
+    const todo4 = new Todo("Shampoo","A good one.","2024-06-28","Medium","Trip")
+    const todo5 = new Todo("Portable Wi-Fi Spot","I need some doomscrolling.","2024-06-30","High","Trip")
+    
+    defaultProject.addTodo(todo1)
+    defaultProject.addTodo(todo2)
+    defaultProject.addTodo(todo3)
+    defaultProject.addTodo(todo4)
+    defaultProject.addTodo(todo5)
 
-const todoTest = new Todo("Brush","hair brush","24/06","High","Trip")
-const todoTest2 = new Todo("Brushesssss","hair brush","24/06","High","Trip")
+    projectList.push(defaultProject)
 
-test.addTodo(todoTest)
-test.addTodo(todoTest2)
 
-projectList.push(test)
-projectList.push(blah)
+}
+
+if (projectList.length === 0){
+    createDefaultProject()
+}
+
+viewProject(projectList[0])
 
 addFormEvents();
 addTodoFormEvents();
@@ -127,8 +141,8 @@ function populateTodos(project){
         project.removeTodo(todo);
     })
 
-    todoDiv.addEventListener("click", ()=>{
-        expandTodo(todoList[todo]);
+    title.addEventListener("click", ()=>{
+        expandTodo(todoList[todo], project);
     })
 
     todoDiv.append(title,completedContainer, deleteTodoButton);
@@ -139,7 +153,7 @@ function populateTodos(project){
     return allTodos;
 }
 
-function expandTodo(todo){
+function expandTodo(todo, currentProject){
     let expandedTodo = document.getElementById("expanded-todo")
     expandedTodo.replaceChildren();
     expandedTodo.style.display = "block";
@@ -185,7 +199,12 @@ function expandTodo(todo){
     completedContainer.appendChild(completedCheckbox);
 
     expandedTodo.append(title, description,dueContainer, priority,project,completedContainer)
-    overlay.show()
+    myOverlay.show()
+    overlay.addEventListener("click", ()=>{
+        expandedTodo.style.display = "none";
+        myOverlay.hide();
+        viewProject(currentProject);
+    })
 }
 
 function deleteProject(project){
