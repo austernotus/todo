@@ -1,6 +1,7 @@
 const overlay = document.querySelector(".overlay")
 const todoForm = document.querySelector("#todo-form")
 const cancelButton = document.querySelector("#cancel-todo");
+const projectSelection = document.getElementById("project-selection")
 
 export class Todo{
     constructor(title,description,due,priority,project,completed = false){
@@ -13,9 +14,23 @@ export class Todo{
     }
 }
 
-export function showTodoForm(button){
-    button.addEventListener("click", ()=> {todoForm.style.display = "block", 
-        overlay.style.display = "block";})
+export function showTodoForm(button, projectList){
+    button.addEventListener("click", ()=> {
+        todoForm.style.display = "block"; 
+        overlay.style.display = "block";
+        projectSelection.replaceChildren();
+        
+        for (const project of projectList){
+            const title = project.title;
+            const newOption = document.createElement("option");
+            newOption.value = title;
+            newOption.innerHTML = title;
+
+            projectSelection.append(newOption);
+        }
+
+
+    })
 }
 
 export function addTodoFormEvents(){
@@ -44,7 +59,7 @@ function handleTodoSubmit(){
         description: document.getElementById("description").value,
         due: document.getElementById("due").value,
         priority: document.getElementById("priority").value,
-        project: document.getElementById("project").value
+        project: document.getElementById("project-selection").value
       };
     return formData;
 }

@@ -8,6 +8,7 @@ const projectSection = document.querySelector("#project-section");
 const viewNotes = document.querySelector("#view-notes");
 
 let projectList = [];
+window.projectList = projectList;
 
 const test = new Project("Trip","Things to Pack");
 const blah = new Project("Game Dev","Ideas to Program");
@@ -49,8 +50,6 @@ document.addEventListener('todoSubmitted', (event) => {
     currentProject.addTodo(formData)
     viewProject(currentProject)
 
-    //addNewProject(formData);
-
 });
 
 function addNewProject(data){
@@ -78,6 +77,10 @@ function viewProject(project){
     const title = document.createElement("h2");
     title.innerHTML = project.title;
     
+    const addTodoButton = document.createElement("button");
+    addTodoButton.innerHTML = " + ";
+    showTodoForm(addTodoButton,projectList);
+
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete Project";
     deleteButton.addEventListener("click", () => {
@@ -86,14 +89,12 @@ function viewProject(project){
         }
     )
 
-    const addTodoButton = document.createElement("button");
-    addTodoButton.innerHTML = " + ";
-    showTodoForm(addTodoButton);
+
 
     const details = document.createElement("p");
     details.innerHTML = project.details;
 
-    newDiv.append(title,details, deleteButton, addTodoButton);
+    newDiv.append(title,details,addTodoButton,deleteButton );
 
     changeMain(newDiv)
 }
