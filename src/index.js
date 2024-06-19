@@ -1,5 +1,5 @@
 import Project from "./projects";
-import Todo from "./todos";
+import {Todo, showTodoForm, addTodoFormEvents} from "./todos";
 import './styles.css';
 import {addFormEvents} from "./form";
 
@@ -22,12 +22,34 @@ projectList.push(test)
 projectList.push(blah)
 
 addFormEvents();
+addTodoFormEvents();
 
 document.addEventListener('formSubmitted', (event) => {
     const formData = event.detail;
     console.log('Form data received in index.js:', formData);
 
     addNewProject(formData);
+
+});
+
+document.addEventListener('todoSubmitted', (event) => {
+    const formData = event.detail;
+    console.log('Todo data received in index.js:', formData);
+
+    let currentProject = null;
+    for (let i = 0; i < projectList.length; i++) {
+        if (projectList[i].title === formData.project) {
+          currentProject = projectList[i];
+          break;
+        }
+      }
+
+    console.log(currentProject);
+
+    currentProject.addTodo(formData)
+    viewProject(currentProject)
+
+    //addNewProject(formData);
 
 });
 
@@ -64,10 +86,14 @@ function viewProject(project){
         }
     )
 
+    const addTodoButton = document.createElement("button");
+    addTodoButton.innerHTML = " + ";
+    showTodoForm(addTodoButton);
+
     const details = document.createElement("p");
     details.innerHTML = project.details;
 
-    newDiv.append(title,details, deleteButton);
+    newDiv.append(title,details, deleteButton, addTodoButton);
 
     changeMain(newDiv)
 }

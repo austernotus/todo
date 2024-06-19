@@ -1,5 +1,3 @@
-
-
 const newProjectButton = document.querySelector("#new-project");
 const overlay = document.querySelector(".overlay")
 const form = document.querySelector("#form")
@@ -12,7 +10,6 @@ export function addFormEvents(){
     form.addEventListener("submit", (event) =>{
         event.preventDefault();
         const newProject = handleFormSubmit();
-
 
         const newEvent = new CustomEvent('formSubmitted', { detail: newProject });
         document.dispatchEvent(newEvent);

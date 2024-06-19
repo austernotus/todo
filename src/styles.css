@@ -17,7 +17,8 @@ body{
     align-items: center;
 }
 
-#form{
+#form, 
+#todo-form{
     display: none;
     position: fixed;
     left: 50%;

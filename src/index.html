@@ -25,6 +25,35 @@
             <button id="cancel-form">Cancel</button>
         </form>
     </div>
+    <div>
+        <form id="todo-form">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+          
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+          
+            <label for="due">Due:</label>
+            <input type="date" class="form-control" id="due" name="due" required>
+          
+            <label for="priority">Priority:</label>
+            <select class="form-control" id="priority" name="priority" required>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          
+            <label for="project">Project:</label>
+            <select class="form-control" id="project" name="project" required>
+              <option value="Trip">Trip</option>
+              <option value="Project B">Project B</option>
+              <option value="Project C">Project C</option>
+            </select>
+          
+            <button type="submit">Submit</button>
+            <button id="cancel-todo">Cancel</button>
+          </form>
+    </div>
     <div class="overlay">
 
     </div>
