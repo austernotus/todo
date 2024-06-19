@@ -8,7 +8,6 @@ const projectSection = document.querySelector("#project-section");
 const viewNotes = document.querySelector("#view-notes");
 
 let projectList = [];
-window.projectList = projectList;
 
 const test = new Project("Trip","Things to Pack");
 const blah = new Project("Game Dev","Ideas to Program");
@@ -88,16 +87,52 @@ function viewProject(project){
         deleteProject(project)
         }
     )
-
-
-
     const details = document.createElement("p");
     details.innerHTML = project.details;
 
-    newDiv.append(title,details,addTodoButton,deleteButton );
+    const todoDiv = populateTodos(project)
+
+    newDiv.append(title,details,todoDiv,addTodoButton,deleteButton );
 
     changeMain(newDiv)
 }
+
+function populateTodos(project){
+    let allTodos = document.createElement("div")
+    const todoList = project.getTodo();
+    for (const todo in todoList){
+    const todoDiv = document.createElement("div");
+    const title = document.createElement("h3");
+    title.textContent = todoList[todo].title;
+
+    const completedLabel = document.createElement("label");
+
+    const completedCheckbox = document.createElement("input");
+    completedCheckbox.type = "checkbox";
+    completedCheckbox.checked = todoList[todo].completed;
+    completedCheckbox.addEventListener("change", () => {
+        todoList[todo].completed = completedCheckbox.checked;
+    });
+
+    const completedContainer = document.createElement("div");
+    completedContainer.appendChild(completedLabel);
+    completedContainer.appendChild(completedCheckbox);
+
+    const deleteTodoButton = document.createElement("button");
+    deleteTodoButton.textContent = "Delete";
+    deleteTodoButton.addEventListener("click", ()=>{
+        todoDiv.parentNode.removeChild(todoDiv);
+        project.removeTodo(todo);
+    })
+
+    todoDiv.append(title,completedContainer, deleteTodoButton);
+    allTodos.append(todoDiv);
+    console.log(title);
+        }
+    
+    return allTodos;
+}
+
 
 function deleteProject(project){
         const index = projectList.indexOf(project);
