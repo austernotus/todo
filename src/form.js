@@ -1,12 +1,13 @@
+import { Overlay } from "./dom";
 const newProjectButton = document.querySelector("#new-project");
-const overlay = document.querySelector(".overlay")
 const form = document.querySelector("#form")
+const overlay = new Overlay();
 const cancelButton = document.querySelector("#cancel-form");
 
 export function addFormEvents(){
     console.log("blah")
     newProjectButton.addEventListener("click", ()=> {form.style.display = "block", 
-        overlay.style.display = "block";})
+        overlay.show();})
     form.addEventListener("submit", (event) =>{
         event.preventDefault();
         const newProject = handleFormSubmit();
@@ -15,13 +16,13 @@ export function addFormEvents(){
         document.dispatchEvent(newEvent);
         
         form.reset();
-        overlay.style.display = "none";   
+        overlay.hide();   
         form.style.display="none"
     })
     cancelButton.addEventListener("click", (event) =>{
         event.preventDefault();
         form.reset();
-        overlay.style.display = "none";   
+        overlay.hide();   
         form.style.display="none"
     })
 

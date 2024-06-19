@@ -18,7 +18,8 @@ body{
 }
 
 #form, 
-#todo-form{
+#todo-form,
+#expanded-todo{
     display: none;
     position: fixed;
     left: 50%;

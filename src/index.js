@@ -2,7 +2,9 @@ import Project from "./projects";
 import {Todo, showTodoForm, addTodoFormEvents} from "./todos";
 import './styles.css';
 import {addFormEvents} from "./form";
+import { Overlay } from "./dom";
 
+const overlay = new Overlay();
 const mainContent = document.querySelector("#main");
 const projectSection = document.querySelector("#project-section");
 const viewNotes = document.querySelector("#view-notes");
@@ -125,6 +127,10 @@ function populateTodos(project){
         project.removeTodo(todo);
     })
 
+    todoDiv.addEventListener("click", ()=>{
+        expandTodo(todoList[todo]);
+    })
+
     todoDiv.append(title,completedContainer, deleteTodoButton);
     allTodos.append(todoDiv);
     console.log(title);
@@ -133,6 +139,54 @@ function populateTodos(project){
     return allTodos;
 }
 
+function expandTodo(todo){
+    let expandedTodo = document.getElementById("expanded-todo")
+    expandedTodo.replaceChildren();
+    expandedTodo.style.display = "block";
+
+    const title = document.createElement("h2");
+    title.textContent = todo.title;
+
+    const description = document.createElement("p");
+    description.textContent = todo.description;
+
+    const dueLabel = document.createElement("label");
+    dueLabel.textContent = "Due: ";
+
+    const dueInput = document.createElement("input");
+    dueInput.type = "date";
+    dueInput.value = todo.due;
+    dueInput.addEventListener("change", () => {
+        todo.due = dueInput.value;
+    });
+
+    const dueContainer = document.createElement("div");
+    dueContainer.appendChild(dueLabel);
+    dueContainer.appendChild(dueInput);
+
+    const priority = document.createElement("p");
+    priority.textContent = `Priority: ${todo.priority}`;
+
+    const project = document.createElement("p");
+    project.textContent = `Project: ${todo.project}`;
+
+    const completedLabel = document.createElement("label");
+    completedLabel.textContent = "Completed: ";
+
+    const completedCheckbox = document.createElement("input");
+    completedCheckbox.type = "checkbox";
+    completedCheckbox.checked = todo.completed;
+    completedCheckbox.addEventListener("change", () => {
+        todo.completed = completedCheckbox.checked;
+    });
+
+    const completedContainer = document.createElement("div");
+    completedContainer.appendChild(completedLabel);
+    completedContainer.appendChild(completedCheckbox);
+
+    expandedTodo.append(title, description,dueContainer, priority,project,completedContainer)
+    overlay.show()
+}
 
 function deleteProject(project){
         const index = projectList.indexOf(project);
