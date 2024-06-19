@@ -8,7 +8,8 @@
 <body>
     <div id="sidebar">
         <div id="logo">📝</div>
-        <div><h1>Your Projects</h1>
+        <div id="side-top">
+            <h1>Your Projects</h1>
             <button id="new-project">New Project</button>
         </div>
 
@@ -21,8 +22,8 @@
             <input type="text" id="form-title" name="form-title" required>
             <label for="description">Description:</label>
             <input type="text" id="form-description" required>
-            <button type="submit" id="submit-form">Create</button>
-            <button id="cancel-form">Cancel</button>
+            <button type="submit" id="submit-form" class="add">Create</button>
+            <button id="cancel-form" class="delete">Cancel</button>
         </form>
     </div>
     <div>
@@ -48,12 +49,12 @@
 
             </select>
           
-            <button type="submit">Submit</button>
-            <button id="cancel-todo">Cancel</button>
+            <button type="submit" class="add">Submit</button>
+            <button id="cancel-todo" class="delete">Cancel</button>
           </form>
     </div>
     <div id="expanded-todo">
-        
+
     </div>
     <div class="overlay">
 

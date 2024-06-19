@@ -5,7 +5,6 @@ const overlay = new Overlay();
 const cancelButton = document.querySelector("#cancel-form");
 
 export function addFormEvents(){
-    console.log("blah")
     newProjectButton.addEventListener("click", ()=> {form.style.display = "block", 
         overlay.show();})
     form.addEventListener("submit", (event) =>{

@@ -12,8 +12,7 @@ const viewNotes = document.querySelector("#view-notes");
 let projectList = [];
 
 function createDefaultProject(){
-    const defaultProject = new Project("Trip","Things to Pack");
-    console.log(defaultProject)
+    const defaultProject = new Project("Trip To Hawaii","Things to Pack");
     const todo1 = new Todo("Brush","A hair brush.","2024-06-21","High","Trip")
     const todo2 = new Todo("Small Backpack","To carry essentials.","2024-06-24","High","Trip")
     const todo3 = new Todo("First-Aid Kit","In case of accidents.","2024-06-25","Low","Trip")
@@ -42,16 +41,12 @@ addTodoFormEvents();
 
 document.addEventListener('formSubmitted', (event) => {
     const formData = event.detail;
-    console.log('Form data received in index.js:', formData);
-
     addNewProject(formData);
 
 });
 
 document.addEventListener('todoSubmitted', (event) => {
     const formData = event.detail;
-    console.log('Todo data received in index.js:', formData);
-
     let currentProject = null;
     for (let i = 0; i < projectList.length; i++) {
         if (projectList[i].title === formData.project) {
@@ -59,8 +54,6 @@ document.addEventListener('todoSubmitted', (event) => {
           break;
         }
       }
-
-    console.log(currentProject);
 
     currentProject.addTodo(formData)
     viewProject(currentProject)
@@ -93,10 +86,12 @@ function viewProject(project){
     title.innerHTML = project.title;
     
     const addTodoButton = document.createElement("button");
+    addTodoButton.className = "add";
     addTodoButton.innerHTML = " + ";
     showTodoForm(addTodoButton,projectList, project);
 
     const deleteButton = document.createElement("button");
+    deleteButton.className = "delete"
     deleteButton.innerHTML = "Delete Project";
     deleteButton.addEventListener("click", () => {
         deleteButton.parentElement.replaceChildren(),
@@ -118,6 +113,7 @@ function populateTodos(project){
     const todoList = project.getTodo();
     for (const todo in todoList){
     const todoDiv = document.createElement("div");
+    todoDiv.className = "todo-item";
     const title = document.createElement("h3");
     title.textContent = todoList[todo].title;
 
@@ -135,6 +131,7 @@ function populateTodos(project){
     completedContainer.appendChild(completedCheckbox);
 
     const deleteTodoButton = document.createElement("button");
+    deleteTodoButton.className = "delete"
     deleteTodoButton.textContent = "Delete";
     deleteTodoButton.addEventListener("click", ()=>{
         todoDiv.parentNode.removeChild(todoDiv);
@@ -147,7 +144,6 @@ function populateTodos(project){
 
     todoDiv.append(title,completedContainer, deleteTodoButton);
     allTodos.append(todoDiv);
-    console.log(title);
         }
     
     return allTodos;
