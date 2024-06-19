@@ -154,7 +154,16 @@ function viewAllNotes(){
     allTodos.forEach(todo =>{
         const todoCard = document.createElement("p")
         todoCard.innerHTML = todo.title;
-        newDiv.append(todoCard);
+        const completedCheckbox = document.createElement("input");
+        completedCheckbox.type = "checkbox";
+        completedCheckbox.checked = todo.completed;
+        completedCheckbox.addEventListener("change", () => {
+            todo.completed = completedCheckbox.checked;
+        });
+    
+        const completedContainer = document.createElement("div");
+        completedContainer.appendChild(completedCheckbox);
+        newDiv.append(todoCard, completedCheckbox);
     })
 
     changeMain(newDiv)
