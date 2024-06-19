@@ -14,12 +14,12 @@ export class Todo{
     }
 }
 
-export function showTodoForm(button, projectList){
+export function showTodoForm(button, projectList, selectedProject){
     button.addEventListener("click", ()=> {
         todoForm.style.display = "block"; 
         overlay.style.display = "block";
         projectSelection.replaceChildren();
-        
+
         for (const project of projectList){
             const title = project.title;
             const newOption = document.createElement("option");
@@ -28,8 +28,7 @@ export function showTodoForm(button, projectList){
 
             projectSelection.append(newOption);
         }
-
-
+        projectSelection.value = selectedProject.title;
     })
 }
 

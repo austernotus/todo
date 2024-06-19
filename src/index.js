@@ -78,7 +78,7 @@ function viewProject(project){
     
     const addTodoButton = document.createElement("button");
     addTodoButton.innerHTML = " + ";
-    showTodoForm(addTodoButton,projectList);
+    showTodoForm(addTodoButton,projectList, project);
 
     const deleteButton = document.createElement("button");
     deleteButton.innerHTML = "Delete Project";
