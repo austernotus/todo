@@ -152,7 +152,19 @@ function populateTodos(project){
 function expandTodo(todo, currentProject){
     let expandedTodo = document.getElementById("expanded-todo")
     expandedTodo.replaceChildren();
-    expandedTodo.style.display = "block";
+    expandedTodo.style.display = "flex";
+    expandedTodo.style.alignItems = "flex-start";
+    
+    
+    let closeWindowButton = document.createElement("button");
+    closeWindowButton.addEventListener("click", ()=>{
+        expandedTodo.style.display = "none";
+        myOverlay.hide();
+    })
+    closeWindowButton.textContent = "X";
+    closeWindowButton.style.alignSelf = "end";
+    closeWindowButton.style.fontSize = "0.45rem";
+    closeWindowButton.style.padding = "10px";
 
     const title = document.createElement("h2");
     title.textContent = todo.title;
@@ -161,7 +173,7 @@ function expandTodo(todo, currentProject){
     description.textContent = todo.description;
 
     const dueLabel = document.createElement("label");
-    dueLabel.textContent = "Due: ";
+    dueLabel.innerHTML = `<b>Due: </b>`;
 
     const dueInput = document.createElement("input");
     dueInput.type = "date";
@@ -175,13 +187,13 @@ function expandTodo(todo, currentProject){
     dueContainer.appendChild(dueInput);
 
     const priority = document.createElement("p");
-    priority.textContent = `Priority: ${todo.priority}`;
+    priority.innerHTML = `<b>Priority: </b>${todo.priority}`;
 
     const project = document.createElement("p");
-    project.textContent = `Project: ${todo.project}`;
+    project.innerHTML = `<b>Project: </b>${todo.project}`;
 
     const completedLabel = document.createElement("label");
-    completedLabel.textContent = "Completed: ";
+    completedLabel.innerHTML = "<b>Completed: </b>";
 
     const completedCheckbox = document.createElement("input");
     completedCheckbox.type = "checkbox";
@@ -194,13 +206,8 @@ function expandTodo(todo, currentProject){
     completedContainer.appendChild(completedLabel);
     completedContainer.appendChild(completedCheckbox);
 
-    expandedTodo.append(title, description,dueContainer, priority,project,completedContainer)
+    expandedTodo.append(closeWindowButton, title, description,dueContainer, priority,project,completedContainer)
     myOverlay.show()
-    overlay.addEventListener("click", ()=>{
-        expandedTodo.style.display = "none";
-        myOverlay.hide();
-        viewProject(currentProject);
-    })
 }
 
 function deleteProject(project){
