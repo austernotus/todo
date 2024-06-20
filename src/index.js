@@ -13,11 +13,11 @@ let projectList = [];
 
 function createDefaultProject(){
     const defaultProject = new Project("Trip To Hawaii","Things to Pack");
-    const todo1 = new Todo("Brush","A hair brush.","2024-06-21","High","Trip")
-    const todo2 = new Todo("Small Backpack","To carry essentials.","2024-06-24","High","Trip")
-    const todo3 = new Todo("First-Aid Kit","In case of accidents.","2024-06-25","Low","Trip")
-    const todo4 = new Todo("Shampoo","A good one.","2024-06-28","Medium","Trip")
-    const todo5 = new Todo("Portable Wi-Fi Spot","I need some doomscrolling.","2024-06-30","High","Trip")
+    const todo1 = new Todo("Brush","A hair brush.","2024-06-21","High","Trip To Hawaii")
+    const todo2 = new Todo("Small Backpack","To carry essentials.","2024-06-24","High","Trip To Hawaii")
+    const todo3 = new Todo("First-Aid Kit","In case of accidents.","2024-06-25","Low","Trip To Hawaii")
+    const todo4 = new Todo("Shampoo","A good one.","2024-06-28","Medium","Trip To Hawaii")
+    const todo5 = new Todo("Portable Wi-Fi Spot","I need some doomscrolling.","2024-06-30","High","Trip To Hawaii")
     
     defaultProject.addTodo(todo1)
     defaultProject.addTodo(todo2)
@@ -112,39 +112,39 @@ function populateTodos(project){
     let allTodos = document.createElement("div")
     const todoList = project.getTodo();
     for (const todo in todoList){
-    const todoDiv = document.createElement("div");
-    todoDiv.className = "todo-item";
-    const title = document.createElement("h3");
-    title.textContent = todoList[todo].title;
+        const todoDiv = document.createElement("div");
+        todoDiv.className = "todo-item";
+        const title = document.createElement("h3");
+        title.textContent = todoList[todo].title;
 
-    const completedLabel = document.createElement("label");
+        const completedLabel = document.createElement("label");
 
-    const completedCheckbox = document.createElement("input");
-    completedCheckbox.type = "checkbox";
-    completedCheckbox.checked = todoList[todo].completed;
-    completedCheckbox.addEventListener("change", () => {
-        todoList[todo].completed = completedCheckbox.checked;
-    });
+        const completedCheckbox = document.createElement("input");
+        completedCheckbox.type = "checkbox";
+        completedCheckbox.checked = todoList[todo].completed;
+        completedCheckbox.addEventListener("change", () => {
+            todoList[todo].completed = completedCheckbox.checked;
+        });
 
-    const completedContainer = document.createElement("div");
-    completedContainer.appendChild(completedLabel);
-    completedContainer.appendChild(completedCheckbox);
+        const completedContainer = document.createElement("div");
+        completedContainer.appendChild(completedLabel);
+        completedContainer.appendChild(completedCheckbox);
 
-    const deleteTodoButton = document.createElement("button");
-    deleteTodoButton.className = "delete"
-    deleteTodoButton.textContent = "Delete";
-    deleteTodoButton.addEventListener("click", ()=>{
-        todoDiv.parentNode.removeChild(todoDiv);
-        project.removeTodo(todo);
-    })
+        const deleteTodoButton = document.createElement("button");
+        deleteTodoButton.className = "delete"
+        deleteTodoButton.textContent = "Delete";
+        deleteTodoButton.addEventListener("click", ()=>{
+            todoDiv.parentNode.removeChild(todoDiv);
+            project.removeTodo(todo);
+        })
 
-    title.addEventListener("click", ()=>{
-        expandTodo(todoList[todo], project);
-    })
+        title.addEventListener("click", ()=>{
+            expandTodo(todoList[todo], project);
+        })
 
-    todoDiv.append(title,completedContainer, deleteTodoButton);
-    allTodos.append(todoDiv);
-        }
+        todoDiv.append(title,completedContainer, deleteTodoButton);
+        allTodos.append(todoDiv);
+    }
     
     return allTodos;
 }
@@ -200,6 +200,7 @@ function expandTodo(todo, currentProject){
     completedCheckbox.checked = todo.completed;
     completedCheckbox.addEventListener("change", () => {
         todo.completed = completedCheckbox.checked;
+        viewProject(currentProject)
     });
 
     const completedContainer = document.createElement("div");
@@ -227,20 +228,48 @@ function viewAllNotes(){
         })
     });
 
-    allTodos.forEach(todo =>{
-        const todoCard = document.createElement("p")
-        todoCard.innerHTML = todo.title;
+    for (const todo in allTodos){
+        const todoDiv = document.createElement("div");
+        todoDiv.className = "todo-item";
+        const title = document.createElement("h3");
+        title.textContent = allTodos[todo].title;
+
+        const completedLabel = document.createElement("label");
+
         const completedCheckbox = document.createElement("input");
         completedCheckbox.type = "checkbox";
-        completedCheckbox.checked = todo.completed;
+        completedCheckbox.checked = allTodos[todo].completed;
         completedCheckbox.addEventListener("change", () => {
-            todo.completed = completedCheckbox.checked;
+            allTodos[todo].completed = completedCheckbox.checked;
         });
-    
+
         const completedContainer = document.createElement("div");
+        completedContainer.appendChild(completedLabel);
         completedContainer.appendChild(completedCheckbox);
-        newDiv.append(todoCard, completedCheckbox);
-    })
+
+        const deleteTodoButton = document.createElement("button");
+        deleteTodoButton.className = "delete"
+        deleteTodoButton.textContent = "Delete";
+        deleteTodoButton.addEventListener("click", ()=>{
+            let currentProject = [];
+            for (const proj of projectList){
+                if (proj.title === allTodos[todo].project){
+                    console.log("found")
+                    currentProject = proj;
+                    break
+                }
+            }
+            todoDiv.parentNode.removeChild(todoDiv);
+            currentProject.removeTodo(todo)
+        })
+
+        title.addEventListener("click", ()=>{
+            expandTodo(allTodos[todo]);
+        })
+
+        todoDiv.append(title,completedContainer, deleteTodoButton);
+        newDiv.append(todoDiv);
+    }
 
     changeMain(newDiv)
 }
