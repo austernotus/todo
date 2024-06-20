@@ -26,8 +26,6 @@ function createDefaultProject(){
     defaultProject.addTodo(todo5)
 
     projectList.push(defaultProject)
-
-
 }
 
 if (projectList.length === 0){
@@ -229,13 +227,13 @@ function viewAllNotes(){
     });
 
     for (const todo in allTodos){
+        let currentProject = [];
         const todoDiv = document.createElement("div");
         todoDiv.className = "todo-item";
         const title = document.createElement("h3");
         title.textContent = allTodos[todo].title;
 
         const completedLabel = document.createElement("label");
-
         const completedCheckbox = document.createElement("input");
         completedCheckbox.type = "checkbox";
         completedCheckbox.checked = allTodos[todo].completed;
@@ -251,7 +249,7 @@ function viewAllNotes(){
         deleteTodoButton.className = "delete"
         deleteTodoButton.textContent = "Delete";
         deleteTodoButton.addEventListener("click", ()=>{
-            let currentProject = [];
+            currentProject = [];
             for (const proj of projectList){
                 if (proj.title === allTodos[todo].project){
                     console.log("found")
@@ -264,7 +262,7 @@ function viewAllNotes(){
         })
 
         title.addEventListener("click", ()=>{
-            expandTodo(allTodos[todo]);
+            expandTodo(allTodos[todo], currentProject);
         })
 
         todoDiv.append(title,completedContainer, deleteTodoButton);
