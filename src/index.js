@@ -2,14 +2,14 @@ import Project from "./projects";
 import {Todo, showTodoForm, addTodoFormEvents} from "./todos";
 import './styles.css';
 import {addFormEvents} from "./form";
-import { Overlay, overlay } from "./dom";
+import { Overlay} from "./dom";
 
 const myOverlay = new Overlay();
 const mainContent = document.querySelector("#main");
 const projectSection = document.querySelector("#project-section");
 const viewNotes = document.querySelector("#view-notes");
 
-let projectList = [];
+const projectList = [];
 
 function createDefaultProject(){
     const defaultProject = new Project("Trip To Hawaii","Things to Pack");
